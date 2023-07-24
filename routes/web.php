@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+use App\Events\PusherBroadcast;
+use Illuminate\Http\Request;
+
+Route::get('/chat',function(){
+    return view('chat');
+});
+
+Route::post('send-message', function(Request $request){
+    event(new PusherBroadcast($request->username, $request->message));
+    return ['success'=>true];
+});
